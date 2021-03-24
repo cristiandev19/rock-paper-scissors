@@ -1,10 +1,33 @@
 import './App.css';
 import './styles/utils.css';
+import socketIOClient from 'socket.io-client';
+import { useEffect, useState } from 'react';
+
+const ENDPOINT = 'http://127.0.0.1:8089';
 
 function App() {
+  const [response, setResponse] = useState('');
+
+  useEffect(() => {
+    const socket = socketIOClient(ENDPOINT);
+    console.log('wut');
+    socket.on('FromAPI', (data) => {
+      setResponse(data);
+    });
+    // CLEAN UP THE EFFECT
+    return () => socket.disconnect();
+  }, []);
+
+  const handleEmmit = () => {
+    console.log('emit');
+    const socket = socketIOClient(ENDPOINT);
+    socket.emit('eventA', 1000);
+  };
+
   return (
     <div>
-      <h1>holaaaaaaaa</h1>
+      <h1>{ `hola   ${response} holaaaaa` }</h1>
+      <button onClick={handleEmmit} type="button">Emite</button>
       <div className="card-container">
         <div className="card-item">
           <figure>
