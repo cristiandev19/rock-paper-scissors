@@ -8,7 +8,7 @@ import useForm from './hooks/useForm';
 const ENDPOINT = 'http://127.0.0.1:8089';
 
 function App() {
-  // const [response, setResponse] = useState('');
+  const [response, setResponse] = useState('');
   const [socket, setSocket] = useState(null);
   const [socketConnected, setSocketConnected] = useState(false);
   const [hand, setHand] = useState('');
@@ -33,11 +33,12 @@ function App() {
     socket.on('connect', () => {
       setSocketConnected(socket.connected);
     });
-    // const newLocal = 'FromAPI';
-    // // console.log('wut');
-    // socket.on(newLocal, (data) => {
-    //   // setResponse(data);
-    // });
+    const newLocal = 'winner';
+    // console.log('wut');
+    socket.on(newLocal, (data) => {
+      setResponse(data);
+      console.log('response', response);
+    });
     socket.on('disconnect', () => {
       setSocketConnected(socket.connected);
     });
